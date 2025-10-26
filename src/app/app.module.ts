@@ -8,7 +8,7 @@ import { UserComponent } from "./user/user.component";
 import { LoginComponent } from "./login/login.component";
 import { HeaderComponent } from "./header/header.component";
 import { ForbiddenComponent } from "./forbidden/forbidden.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { AuthGuard } from "./_auth/auth.guard";
@@ -35,6 +35,11 @@ import { CartComponent } from "./cart/cart.component";
 import { MyOrdersComponent } from "./my-orders/my-orders.component";
 import { OrderDetailsComponent } from "./order-details/order-details.component";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { AdminModule } from "./admin_module/admin.module";
+import { MatCardModule } from "@angular/material/card";
+import { MatSelectModule } from "@angular/material/select";
+import { CommonModule } from "@angular/common";
+import { AdminRoutingModule } from "./admin_module/admin-routing.module";
 // import { KeycloakService } from "./_auth/keycloak.service";
 
 // export function kcFactory(kcService: KeycloakService) {
@@ -75,9 +80,14 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
     MatInputModule,
     MatGridListModule,
     MatTableModule,
-    MatIconModule,
     MatDialogModule,
     MatButtonToggleModule,
+    MatIconModule,
+    MatCardModule,
+    MatSelectModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
     AuthGuard,

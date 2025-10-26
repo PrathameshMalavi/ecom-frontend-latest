@@ -4,7 +4,6 @@ import { Observable } from "rxjs";
 import { OrderDetails } from "../_model/order-details.model";
 import { MyOrderDetails } from "../_model/order.model";
 import { Product } from "../_model/product.model";
-import { environment } from "src/environments/environment";
 import { oldapi } from "../enviroments";
 
 @Injectable({

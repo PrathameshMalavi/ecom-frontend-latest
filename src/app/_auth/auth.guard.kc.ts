@@ -32,12 +32,12 @@
 //     | boolean
 //     | UrlTree {
 //     // keyclaok code
-//     // if (this.tokenService.keycloak.isTokenExpired()) {
-//     //   router.navigate(["login"]);
-//     //   return false;
-//     // }
+//     if (this.tokenService.keycloak.isTokenExpired()) {
+//       this.router.navigate(["login"]);
+//       return false;
+//     }
 
-//     // return true;
+//     return true;
 //     if (this.userAuthService.getToken() !== null) {
 //       const role = route.data["roles"] as Array<string>;
 

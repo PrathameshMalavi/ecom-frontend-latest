@@ -1,0 +1,17 @@
+.simple-circle-img,
+.simple-circle-placeholder {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f6f8fa;
+  border: 2px solid #e4eaf0;
+}
+
+.simple-circle-placeholder {
+  background: #f0f3fa;
+  border: 2px dashed #deebfc;
+}

@@ -1,19 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../_services/product.service';
+import { Component, OnInit } from "@angular/core";
+import { ProductService } from "../_services/product.service";
 
 @Component({
-  selector: 'app-order-details',
-  templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.css']
+  selector: "app-order-details",
+  templateUrl: "./order-details.component.html",
+  styleUrls: ["./order-details.component.css"],
 })
 export class OrderDetailsComponent implements OnInit {
-
-  displayedColumns: string[] = ['Id', 'Product Name', 'Name', 'Address', 'Contact No.', 'Status', 'Action'];
+  displayedColumns: string[] = [
+    "Id",
+    "Product Name",
+    "Name",
+    "Address",
+    "Contact No.",
+    "Status",
+    "Action",
+  ];
   dataSource = [];
 
-  status: string = 'All';
+  status: string = "All";
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
     this.getAllOrderDetailsForAdmin(this.status);
@@ -24,7 +31,8 @@ export class OrderDetailsComponent implements OnInit {
       (resp) => {
         this.dataSource = resp;
         console.log(resp);
-      }, (error) => {
+      },
+      (error) => {
         console.log(error);
       }
     );
@@ -36,10 +44,10 @@ export class OrderDetailsComponent implements OnInit {
       (response) => {
         this.getAllOrderDetailsForAdmin(this.status);
         console.log(response);
-      }, (error) => {
+      },
+      (error) => {
         console.log(error);
       }
     );
   }
-
 }

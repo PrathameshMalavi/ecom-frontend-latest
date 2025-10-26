@@ -1,28 +1,71 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+// /* To learn more about this file see: https://angular.io/config/tsconfig. */
+// {
+//   "compileOnSave": false,
+//   "compilerOptions": {
+//     "types": [
+//       "node"
+//       // node_modules
+//     ],
+//     "baseUrl": "./",
+//     "outDir": "./dist/out-tsc",
+//     "sourceMap": true,
+//     "declaration": false,
+//     "downlevelIteration": true,
+//     "experimentalDecorators": true,
+//     // "moduleResolution": "node",
+//     "moduleResolution": "node16",
+//     "importHelpers": true,
+//     // "paths": {
+//     //   "keycloak-js": ["node_modules/keycloak-js/lib/keycloak.d.ts"]
+//     // },
+//     // "exclude": ["node_modules/keycloak-js/**/*.ts"],
+//     // "allowSyntheticDefaultImports": true,
+//     // "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "target": "es2015",
+//     "module": "es2020",
+//     "lib": ["es2018", "dom"]
+//   }
+// }
+
+// {
+//   "compilerOptions": {
+//     "target": "es2022",
+//     "module": "nodenext",
+//     "moduleResolution": "nodenext",
+//     "allowSyntheticDefaultImports": true,
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "types": ["node"],
+//     "baseUrl": "./",
+//     "outDir": "./dist/out-tsc",
+//     "sourceMap": true,
+//     "downlevelIteration": true,
+//     "experimentalDecorators": true,
+//     "importHelpers": true,
+//     "lib": ["es2018", "dom"]
+//   }
+// }
+
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "types": [
-      "node"
-      // node_modules
-    ],
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "strict": false,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
-    // "paths": {
-    //   "keycloak-js": ["node_modules/keycloak-js/lib/keycloak.d.ts"]
-    // },
-    // "exclude": ["node_modules/keycloak-js/**/*.ts"],
-    // "allowSyntheticDefaultImports": true,
-    // "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "es2015",
-    "module": "es2020",
-    "lib": ["es2018", "dom"]
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": ["ES2022", "dom"]
   }
 }

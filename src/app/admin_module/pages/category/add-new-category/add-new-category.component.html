@@ -1,0 +1,97 @@
+<div class="d-flex flex-column align-items-center my-4">
+  <!-- Circle image preview or icon -->
+  <div class="mb-3">
+    <img
+      *ngIf="selectedImage"
+      [src]="selectedImage"
+      alt="Category Preview"
+      class="simple-circle-img"
+    />
+    <div *ngIf="!selectedImage" class="simple-circle-placeholder">
+      <span
+        class="material-icons-outlined text-secondary"
+        style="font-size: 2.7em"
+        >category</span
+      >
+    </div>
+  </div>
+
+  <h2 class="fw-bold text-center mb-3" style="color: #22303c">
+    Add New Category
+  </h2>
+
+  <form
+    [formGroup]="categoryForm"
+    (ngSubmit)="submit()"
+    enctype="multipart/form-data"
+    style="max-width: 350px; width: 100%"
+  >
+    <div class="mb-2">
+      <label for="name" class="form-label">Category Name</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-control"
+        placeholder="Enter category name"
+      />
+      <div
+        *ngIf="
+          categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched
+        "
+        class="text-danger small"
+      >
+        Name is required
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label for="description" class="form-label">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+        rows="3"
+        placeholder="Enter category description"
+      ></textarea>
+      <div
+        *ngIf="
+          categoryForm.get('description')?.invalid &&
+          categoryForm.get('description')?.touched
+        "
+        class="text-danger small"
+      >
+        Description is required
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="imageFile" class="form-label">Category Image</label>
+      <input
+        type="file"
+        id="imageFile"
+        (change)="onFileSelected($event)"
+        class="form-control"
+        accept="image/*"
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary w-100"
+      [disabled]="categoryForm.invalid"
+    >
+      Add Category
+    </button>
+  </form>
+
+  <div
+    *ngIf="successMessage"
+    class="alert alert-success mt-3 w-100 text-center"
+  >
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-2 w-100 text-center">
+    {{ errorMessage }}
+  </div>
+</div>

@@ -4,6 +4,7 @@ import { Inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { UserAuthService } from "../_services/user-auth.service";
 import { UserService } from "../_services/user.service";
+import { KeycloakService } from "../_auth/keycloak.service";
 // import { KeycloakService } from "../_auth/keycloak.service";
 
 @Component({
@@ -17,9 +18,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private userService: UserService,
     private userAuthService: UserAuthService,
-    private router: Router
-  ) // private keycloak: KeycloakService
-  {}
+    private router: Router,
+    private keycloak: KeycloakService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     // if (this.keycloak.keycloak.authenticated) {

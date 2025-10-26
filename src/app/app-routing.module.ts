@@ -17,6 +17,7 @@ import { RegisterComponent } from "./register/register.component";
 import { ShowProductDetailsComponent } from "./show-product-details/show-product-details.component";
 import { UserComponent } from "./user/user.component";
 import { AuthGuard } from "./_auth/auth.guard";
+import { AdminModule } from "./admin_module/admin.module";
 
 const routes: Routes = [
   // {
@@ -94,6 +95,13 @@ const routes: Routes = [
   {
     path: "register",
     component: RegisterComponent,
+  },
+  {
+    path: "adminMod",
+    canActivate: [AuthGuard],
+    data: { roles: ["Admin"] },
+    loadChildren: () =>
+      import("./admin_module/admin.module").then((m) => m.AdminModule),
   },
 ];
 
