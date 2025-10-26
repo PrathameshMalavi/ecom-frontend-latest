@@ -19,6 +19,10 @@ import { UserComponent } from "./user/user.component";
 import { AuthGuard } from "./_auth/auth.guard";
 
 const routes: Routes = [
+  // {
+  //   path: "",
+  //   redirectTo: "login",
+  // },
   { path: "", component: HomeComponent },
   {
     path: "admin",
@@ -73,24 +77,24 @@ const routes: Routes = [
     path: "cart",
     component: CartComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["User"] }
+    data: { roles: ["User"] },
   },
   {
-    path:"orderConfirm",
+    path: "orderConfirm",
     component: OrderConfirmationComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["User"] }
+    data: { roles: ["User"] },
   },
   {
-    path:"myOrders",
+    path: "myOrders",
     component: MyOrdersComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["User"] }
+    data: { roles: ["User"] },
   },
   {
     path: "register",
-    component: RegisterComponent
-  }
+    component: RegisterComponent,
+  },
 ];
 
 @NgModule({

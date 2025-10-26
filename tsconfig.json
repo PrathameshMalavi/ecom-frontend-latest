@@ -10,11 +10,15 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    // "paths": {
+    //   "keycloak-js": ["node_modules/keycloak-js/lib/keycloak.d.ts"]
+    // },
+    // "exclude": ["node_modules/keycloak-js/**/*.ts"],
+    // "allowSyntheticDefaultImports": true,
+    // "esModuleInterop": true,
+    "skipLibCheck": true,
     "target": "es2015",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "lib": ["es2018", "dom"]
   }
 }
