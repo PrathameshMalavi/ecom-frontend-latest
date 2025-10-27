@@ -29,7 +29,9 @@ export class ProductService {
   }
 
   public getMyOrders(): Observable<MyOrderDetails[]> {
-    return this.httpClient.get<MyOrderDetails[]>(oldapi.getAllOrderDetails);
+    return this.httpClient.get<MyOrderDetails[]>(oldapi.getAllOrderDetails, {
+      withCredentials: true,
+    });
   }
 
   public deleteCartItem(cartId) {

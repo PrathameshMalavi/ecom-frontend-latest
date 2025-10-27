@@ -9,6 +9,7 @@ import {
 import { Observable } from "rxjs";
 import { UserAuthService } from "../_services/user-auth.service";
 import { UserService } from "../_services/user.service";
+import { KeycloakService } from "./keycloak.service";
 // import { KeycloakService } from "./keycloak.service";
 
 @Injectable({
@@ -18,7 +19,8 @@ export class AuthGuard implements CanActivate {
   constructor(
     private userAuthService: UserAuthService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private keycloak: KeycloakService
   ) {}
 
   canActivate(
@@ -29,12 +31,14 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.userAuthService.getToken() !== null) {
+    if (this.keycloak.getUserToken() !== null) {
       const role = route.data["roles"] as Array<string>;
 
       if (role) {
-        const match = this.userService.roleMatch(role);
-
+        const userRoles: any = this.keycloak.getUserRolesToken();
+        // const match = this.userService.roleMatch(role, userRoles);
+        const match = this.userService.matchRoles(userRoles, role[0]);
+        console.log(userRoles + " : " + match);
         if (match) {
           return true;
         } else {
@@ -44,7 +48,8 @@ export class AuthGuard implements CanActivate {
       }
     }
 
-    this.router.navigate(["/login"]);
+    // this.router.navigate(["/"]);
+    this.keycloak.login();
     return false;
   }
 }

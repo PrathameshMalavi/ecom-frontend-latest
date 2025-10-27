@@ -40,11 +40,20 @@ import { MatCardModule } from "@angular/material/card";
 import { MatSelectModule } from "@angular/material/select";
 import { CommonModule } from "@angular/common";
 import { AdminRoutingModule } from "./admin_module/admin-routing.module";
-// import { KeycloakService } from "./_auth/keycloak.service";
+import { KeycloakService } from "./_auth/keycloak.service";
+import { StoreModule } from "@ngrx/store";
+import { carouselReducer } from "./store/caraousel/carousel.reducer";
+import { EffectsModule } from "@ngrx/effects";
+import { CarouselEffects } from "./store/caraousel/carousel.effects.ts";
+import { CarouselComponentComponent } from "./carousel-component/carousel-component.component";
+import { AddCarouselComponent } from "./carousel-component/add-carousel/add-carousel.component";
+import { ManageCarouselComponent } from "./carousel-component/manage-carousel/manage-carousel.component";
+import { CarouselBannerComponent } from "./carousel-component/carousel-view-componet";
+// import { MatTableModule } from '@angular/material/table';
 
-// export function kcFactory(kcService: KeycloakService) {
-//   return () => kcService.init();
-// }
+export function kcFactory(kcService: KeycloakService) {
+  return () => kcService.init();
+}
 
 @NgModule({
   declarations: [
@@ -66,6 +75,10 @@ import { AdminRoutingModule } from "./admin_module/admin-routing.module";
     CartComponent,
     MyOrdersComponent,
     OrderDetailsComponent,
+    CarouselComponentComponent,
+    ManageCarouselComponent,
+    CarouselBannerComponent,
+    AddCarouselComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +101,9 @@ import { AdminRoutingModule } from "./admin_module/admin-routing.module";
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    StoreModule.forRoot({ carousel: carouselReducer }),
+    EffectsModule.forRoot([CarouselEffects]),
+    MatTableModule,
   ],
   providers: [
     AuthGuard,
@@ -96,12 +112,12 @@ import { AdminRoutingModule } from "./admin_module/admin-routing.module";
       useClass: AuthInterceptor,
       multi: true,
     },
-    // {
-    //   provide: APP_INITIALIZER,
-    //   deps: [KeycloakService],
-    //   useFactory: kcFactory,
-    //   multi: true,
-    // },
+    {
+      provide: APP_INITIALIZER,
+      deps: [KeycloakService],
+      useFactory: kcFactory,
+      multi: true,
+    },
     UserService,
   ],
   bootstrap: [AppComponent],

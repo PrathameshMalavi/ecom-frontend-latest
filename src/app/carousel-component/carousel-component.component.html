@@ -1,0 +1,26 @@
+<div *ngIf="items.length > 0" class="banner-carousel">
+  @if (currentIndex > 0) {
+  <button class="nav prev" (click)="previous()">&#10094;</button>
+  }
+
+  <div class="banner-image-wrapper">
+    <a
+      [href]="items[currentIndex].url"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        [src]="items[currentIndex].imageUrl"
+        [alt]="items[currentIndex].description"
+        class="banner-image"
+      />
+      <div class="banner-description">
+        {{ items[currentIndex].description }}
+      </div>
+    </a>
+  </div>
+
+  @if (currentIndex < size) {
+  <button class="nav next" (click)="next()">&#10095;</button>
+  }
+</div>

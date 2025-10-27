@@ -1,0 +1,90 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: #f9fafb;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 420px;
+  padding: 30px;
+}
+
+.card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+input[type="text"],
+textarea {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.upload-box {
+  border: 2px dashed #bbb;
+  border-radius: 12px;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.upload-box:hover {
+  border-color: #007bff;
+}
+
+/* 
+.upload-icon {
+  font-size: 40px;
+  color: #777;
+} */
+
+.preview-img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

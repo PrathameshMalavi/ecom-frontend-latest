@@ -5,6 +5,8 @@ import { Router } from "@angular/router";
 import { UserAuthService } from "../_services/user-auth.service";
 import { UserService } from "../_services/user.service";
 import { KeycloakService } from "../_auth/keycloak.service";
+import { newRoles, oldapi } from "../enviroments";
+import { HttpClient } from "@angular/common/http";
 // import { KeycloakService } from "../_auth/keycloak.service";
 
 @Component({
@@ -19,38 +21,65 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private userAuthService: UserAuthService,
     private router: Router,
-    private keycloak: KeycloakService
+    private keycloak: KeycloakService,
+    private http: HttpClient
   ) {}
 
   async ngOnInit(): Promise<void> {
-    // if (this.keycloak.keycloak.authenticated) {
-    //   this.router.navigate(["home"]);
-    //   return;
-    // }
-    // await this.keycloak.init();
-    // await this.keycloak.login();
+    this.keyCloakHandleLogin();
   }
 
-  login(loginForm: NgForm) {
-    this.userService.login(loginForm.value).subscribe(
-      (response: any) => {
-        this.userAuthService.setRoles(response.user.role);
-        this.userAuthService.setToken(response.jwtToken);
-
-        const role = response.user.role[0].roleName;
-        if (role === "Admin") {
-          this.router.navigate(["/admin"]);
-        } else {
-          this.router.navigate(["/user"]);
-        }
-      },
-      (error) => {
-        console.log(error);
+  async keyCloakHandleLogin() {
+    if (this.keycloak.isUserAuthenticated()) {
+      this.userEntryRequest();
+      if (this.keycloak.isAdmin()) {
+        this.router.navigate(["/admin"]);
+      } else {
+        this.router.navigate(["/user"]);
       }
-    );
+    }
+    await this.keycloak.init();
+    await this.keycloak.login();
   }
 
-  registerUser() {
-    this.router.navigate(["/register"]);
+  userEntryRequest() {
+    this.http.get(oldapi.userEntry, { withCredentials: true }).subscribe({
+      next: (response) => console.log("Response:", response),
+      error: (err) => console.error("Error:", err),
+    });
   }
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  // login(loginForm: NgForm) {
+  //   this.userService.login(loginForm.value).subscribe(
+  //     (response: any) => {
+  //       this.userAuthService.setRoles(response.user.role);
+  //       this.userAuthService.setToken(response.jwtToken);
+
+  //       const role = response.user.role[0].roleName;
+  //       if (role === "Admin") {
+  //         this.router.navigate(["/admin"]);
+  //       } else {
+  //         this.router.navigate(["/user"]);
+  //       }
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
+
+  // registerUser() {
+  //   this.router.navigate(["/register"]);
+  // }
 }

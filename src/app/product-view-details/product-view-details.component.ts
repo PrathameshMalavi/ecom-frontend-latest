@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Product } from "../_model/product.model";
 import { ProductService } from "../_services/product.service";
+import { KeycloakService } from "../_auth/keycloak.service";
 
 @Component({
   selector: "app-product-view-details",
@@ -16,7 +17,8 @@ export class ProductViewDetailsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    private keycloak: KeycloakService
   ) {}
 
   ngOnInit(): void {
@@ -47,5 +49,12 @@ export class ProductViewDetailsComponent implements OnInit {
         id: productId,
       },
     ]);
+  }
+
+  isUser() {
+    if (this.keycloak.isAdmin()) {
+      return false;
+    }
+    return true;
   }
 }

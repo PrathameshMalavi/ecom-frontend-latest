@@ -1,25 +1,29 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
+import { newRoles } from "../enviroments";
+import { KeycloakService } from "../_auth/keycloak.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserAuthService {
-  constructor() {}
+  constructor(private keycloak: KeycloakService) {}
 
   public setRoles(roles: []) {
-    localStorage.setItem('roles', JSON.stringify(roles));
+    localStorage.setItem("roles", JSON.stringify(roles));
   }
 
-  public getRoles(): [] {
-    return JSON.parse(localStorage.getItem('roles'));
+  public getRoles(): string[] {
+    return this.keycloak.getUserRolesToken();
+    // return JSON.parse(localStorage.getItem('roles'));
   }
 
   public setToken(jwtToken: string) {
-    localStorage.setItem('jwtToken', jwtToken);
+    localStorage.setItem("jwtToken", jwtToken);
   }
 
   public getToken(): string {
-    return localStorage.getItem('jwtToken');
+    return this.keycloak.getUserToken();
+    return localStorage.getItem("jwtToken");
   }
 
   public clear() {
@@ -31,12 +35,14 @@ export class UserAuthService {
   }
 
   public isAdmin() {
-    const roles: any[] = this.getRoles();
-    return roles[0].roleName === 'Admin';
+    return this.getRoles().includes(newRoles.admin);
+    // const roles: any[] = this.getRoles();
+    // return roles[0].roleName === newRoles.admin;
   }
 
   public isUser() {
+    return this.getRoles().includes(newRoles.user);
     const roles: any[] = this.getRoles();
-    return roles[0].roleName === 'User';
+    return roles[0].roleName === newRoles.user;
   }
 }

@@ -2,11 +2,13 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { map } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 import { ImageProcessingService } from "../image-processing.service";
+import { ImageProcessingServiceURI } from "../url-to-image";
 import { ShowProductImagesDialogComponent } from "../show-product-images-dialog/show-product-images-dialog.component";
 import { Product } from "../_model/product.model";
 import { ProductService } from "../_services/product.service";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: "app-show-product-details",
@@ -30,7 +32,8 @@ export class ShowProductDetailsComponent implements OnInit {
   constructor(
     private productService: ProductService,
     public imagesDialog: MatDialog,
-    private imageProcessingService: ImageProcessingService,
+    // private imageProcessingService: ImageProcessingService,
+    private imageService: ImageProcessingServiceURI,
     private router: Router
   ) {}
 
@@ -47,34 +50,61 @@ export class ShowProductDetailsComponent implements OnInit {
 
   public getAllProducts(searchKeyword: string = "") {
     this.showTable = false;
+    console.log(
+      "Entered getALlProducts *****************************************************************"
+    );
     this.productService
       .getAllProducts(this.pageNumber, searchKeyword)
       .pipe(
-        map((x: Product[], i) =>
-          x.map((product: Product) =>
-            this.imageProcessingService.createImages(product)
-          )
-        )
+        switchMap((products: Product[]) => {
+          // Map each product to a promise (createImages)
+          const productPromises = products.map(
+            async (product) => await this.imageService.createImages(product)
+          );
+          // Wait for all promises to resolve
+          return forkJoin(productPromises);
+        })
       )
       .subscribe(
         (resp: Product[]) => {
-          // console.log(resp);
           resp.forEach((product) => this.productDetails.push(product));
           console.log("msg", this.productDetails);
           this.showTable = true;
 
-          if (resp.length == 12) {
-            this.showLoadMoreProductButton = true;
-          } else {
-            this.showLoadMoreProductButton = false;
-          }
-
-          // this.productDetails = resp;
+          this.showLoadMoreProductButton = resp.length === 12;
         },
         (error: HttpErrorResponse) => {
           console.log(error);
         }
       );
+    // this.productService
+    //   .getAllProducts(this.pageNumber, searchKeyword)
+    //   .pipe(
+    //     map((x: Product[], i) =>
+    //       x.map((product: Product) =>
+    //         this.imageProcessingService.createImages(product)
+    //       )
+    //     )
+    //   )
+    //   .subscribe(
+    //     (resp: Product[]) => {
+    //       // console.log(resp);
+    //       resp.forEach((product) => this.productDetails.push(product));
+    //       console.log("msg", this.productDetails);
+    //       this.showTable = true;
+
+    //       if (resp.length == 12) {
+    //         this.showLoadMoreProductButton = true;
+    //       } else {
+    //         this.showLoadMoreProductButton = false;
+    //       }
+
+    //       // this.productDetails = resp;
+    //     },
+    //     (error: HttpErrorResponse) => {
+    //       console.log(error);
+    //     }
+    //   );
   }
 
   loadMoreProduct() {
@@ -98,6 +128,7 @@ export class ShowProductDetailsComponent implements OnInit {
     this.imagesDialog.open(ShowProductImagesDialogComponent, {
       data: {
         images: product.productImages,
+        imageUrls: product.imageUrls,
       },
       height: "500px",
       width: "800px",

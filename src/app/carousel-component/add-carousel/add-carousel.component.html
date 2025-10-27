@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <div class="card">
+    <h2>Add Carousel</h2>
+
+    <form [formGroup]="carouselForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Select Image</label>
+        <div class="upload-box" (click)="fileInput.click()">
+          <input
+            type="file"
+            #fileInput
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            hidden
+          />
+          @if (previewUrl == "") { @if(newCarousel){
+          <div class="container">
+            <p>Click to select image</p>
+          </div>
+          } @else{
+          <img [src]="carousel.url" alt="Preview" class="preview-img" />
+          }
+          <!-- <div class="placeholder">
+            <span class="icon">📷</span>
+            <p>Click to select image</p>
+          </div> -->
+          } @else{
+          <img [src]="previewUrl" alt="Preview" class="preview-img" />
+          }
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Redirect URL</label>
+        <input
+          type="text"
+          formControlName="url"
+          placeholder="Enter redirect URL"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          formControlName="description"
+          placeholder="Enter description"
+        ></textarea>
+      </div>
+
+      <button type="submit" [disabled]="carouselForm.invalid">
+        Add Carousel
+      </button>
+    </form>
+  </div>
+</div>

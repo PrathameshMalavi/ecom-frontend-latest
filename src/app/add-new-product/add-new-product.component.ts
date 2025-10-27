@@ -22,7 +22,7 @@ export class AddNewProductComponent implements OnInit {
     productDiscountedPrice: 0,
     productActualPrice: 0,
     productImages: [],
-    imageUrl: [],
+    imageUrls: [],
   };
 
   constructor(
@@ -33,9 +33,9 @@ export class AddNewProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.product = this.activatedRoute.snapshot.data["product"];
-
     if (this.product && this.product.productId) {
       this.isNewProduct = false;
+      this.product.productImages = [];
     }
   }
 

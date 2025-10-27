@@ -11,8 +11,10 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { OrderDetails } from "../_model/order-details.model";
 import { Product } from "../_model/product.model";
 import { ProductService } from "../_services/product.service";
+import { KeycloakService } from "../_auth/keycloak.service";
 
 declare var Razorpay: any;
+
 @Component({
   selector: "app-buy-product",
   templateUrl: "./buy-product.component.html",
@@ -35,7 +37,8 @@ export class BuyProductComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private productService: ProductService,
     private router: Router,
-    private injector: Injector
+    private injector: Injector,
+    private keycloak: KeycloakService
   ) {}
 
   ngOnInit(): void {
@@ -128,8 +131,8 @@ export class BuyProductComponent implements OnInit {
       key: response.key,
       amount: response.amount,
       currency: response.currency,
-      name: "Learn programming yourself",
-      description: "Payment of online shopping",
+      name: "Ecommerce",
+      description: "Payment of your shopping",
       image:
         "https://cdn.pixabay.com/photo/2023/01/22/13/46/swans-7736415_640.jpg",
       handler: (response: any) => {
@@ -140,9 +143,9 @@ export class BuyProductComponent implements OnInit {
         }
       },
       prefill: {
-        name: "LPY",
-        email: "LPY@GMAIL.COM",
-        contact: "90909090",
+        name: this.keycloak.getUserFullName(),
+        email: this.keycloak.getUserEmail(),
+        contact: "9920858124",
       },
       notes: {
         address: "Online Shopping",

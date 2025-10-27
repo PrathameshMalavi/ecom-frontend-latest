@@ -15,14 +15,16 @@ export class UserComponent implements OnInit {
   }
 
   forUser() {
-    this.userService.forUser().subscribe(
-      (response) => {
-        console.log(response);
-        this.message = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.message = this.userService.forUser();
+
+    // this.userService.forUser().subscribe(
+    //   (response) => {
+    //     console.log(response);
+    //     this.message = response;
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
   }
 }

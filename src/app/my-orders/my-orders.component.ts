@@ -19,13 +19,14 @@ export class MyOrdersComponent implements OnInit {
   }
 
   getOrderDetails() {
+    console.log("My Orders : Entered");
     this.productService.getMyOrders().subscribe(
       (resp: MyOrderDetails[]) => {
         console.log(resp);
         this.myOrderDetails = resp;
       },
       (err) => {
-        console.log(err);
+        console.log("My Orders : " + err);
       }
     );
   }

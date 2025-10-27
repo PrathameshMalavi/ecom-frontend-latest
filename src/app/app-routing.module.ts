@@ -18,58 +18,61 @@ import { ShowProductDetailsComponent } from "./show-product-details/show-product
 import { UserComponent } from "./user/user.component";
 import { AuthGuard } from "./_auth/auth.guard";
 import { AdminModule } from "./admin_module/admin.module";
+import { newRoles } from "./enviroments";
+import { AddNewCategoryComponent } from "./admin_module/pages/category/add-new-category/add-new-category.component";
+import { AddCarouselComponent } from "./carousel-component/add-carousel/add-carousel.component";
+import { CarouselComponentComponent } from "./carousel-component/carousel-component.component";
+import { ManageCarouselComponent } from "./carousel-component/manage-carousel/manage-carousel.component";
 
 const routes: Routes = [
+  // {
+  //   path: "temp",
+  //   component: AddCarouselComponent,
+  //   // canActivate: [AuthGuard],
+  //   // data: { roles: [newRoles.admin] },
+  // },
+  // {
+  //   path: "temp2",
+  //   component: CarouselComponentComponent,
+  //   // canActivate: [AuthGuard],
+  //   // data: { roles: [newRoles.admin] },
+  // },
+  // {
+  //   path: "temp3",
+  //   component: ManageCarouselComponent,
+  //   // canActivate: [AuthGuard],
+  //   // data: { roles: [newRoles.admin] },
+  // },
   // {
   //   path: "",
   //   redirectTo: "login",
   // },
   { path: "", component: HomeComponent },
   {
-    path: "admin",
-    component: AdminComponent,
-    canActivate: [AuthGuard],
-    data: { roles: ["Admin"] },
+    path: "productViewDetails",
+    component: ProductViewDetailsComponent,
+    resolve: { product: ProductResolveService },
   },
+  // { path: "login", component: LoginComponent },
+  { path: "forbidden", component: ForbiddenComponent },
+  // { path: "register", component: RegisterComponent },
+
+  //
+  //
+  //
+  //
+  // User Roles
   {
     path: "user",
     component: UserComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["User"] },
-  },
-  { path: "login", component: LoginComponent },
-  { path: "forbidden", component: ForbiddenComponent },
-  {
-    path: "addNewProduct",
-    component: AddNewProductComponent,
-    canActivate: [AuthGuard],
-    data: { roles: ["Admin"] },
-    resolve: {
-      product: ProductResolveService,
-    },
-  },
-  {
-    path: "showProductDetails",
-    component: ShowProductDetailsComponent,
-    canActivate: [AuthGuard],
-    data: { roles: ["Admin"] },
-  },
-  {
-    path: "orderInformation",
-    component: OrderDetailsComponent,
-    canActivate: [AuthGuard],
-    data: { roles: ["Admin"] },
-  },
-  {
-    path: "productViewDetails",
-    component: ProductViewDetailsComponent,
-    resolve: { product: ProductResolveService },
+    data: { roles: [newRoles.user] },
   },
   {
     path: "buyProduct",
     component: BuyProductComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["User"] },
+    data: { roles: [newRoles.user] },
     resolve: {
       productDetails: BuyProductResolverService,
     },
@@ -78,28 +81,63 @@ const routes: Routes = [
     path: "cart",
     component: CartComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["User"] },
+    data: { roles: [newRoles.user] },
   },
   {
     path: "orderConfirm",
     component: OrderConfirmationComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["User"] },
+    data: { roles: [newRoles.user] },
   },
   {
     path: "myOrders",
     component: MyOrdersComponent,
     canActivate: [AuthGuard],
-    data: { roles: ["User"] },
+    data: { roles: [newRoles.user] },
+  },
+
+  //
+  //
+  //
+  //
+  // Admin Roles
+  {
+    path: "admin",
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [newRoles.admin] },
   },
   {
-    path: "register",
-    component: RegisterComponent,
+    path: "addNewProduct",
+    component: AddNewProductComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [newRoles.admin] },
+    resolve: {
+      product: ProductResolveService,
+    },
+  },
+  {
+    path: "addNewCarousel",
+    component: AddCarouselComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [newRoles.admin] },
+  },
+  {
+    path: "showProductDetails",
+    component: ShowProductDetailsComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [newRoles.admin] },
+  },
+  {
+    path: "orderInformation",
+    component: OrderDetailsComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [newRoles.admin] },
   },
   {
     path: "adminMod",
     canActivate: [AuthGuard],
-    data: { roles: ["Admin"] },
+    data: { roles: [newRoles.admin] },
     loadChildren: () =>
       import("./admin_module/admin.module").then((m) => m.AdminModule),
   },

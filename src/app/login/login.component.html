@@ -1,3 +1,40 @@
+<!-- Centered Loading Screen Using Material Icons -->
+<div
+  style="
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  "
+>
+  <!-- Rotating Material Icon -->
+  <mat-icon
+    style="
+      font-size: 64px;
+      color: #3f51b5;
+      animation: spin 1.5s linear infinite;
+    "
+  >
+    autorenew
+  </mat-icon>
+
+  <p style="margin-top: 10px; font-size: 18px; color: #3f51b5">Loading...</p>
+
+  <!-- Inline keyframes -->
+  <style>
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</div>
+<!-- 
 <div class="container mt-5">
     <div class="card" style="padding: 20px;">
         <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
@@ -33,4 +70,4 @@
         <button class="w-20" mat-raised-button type="button" (click)="registerUser()">Create an account</button>
     </div>
         
-</div>
+</div> -->

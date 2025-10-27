@@ -3,9 +3,27 @@ export const environment = {
 
   // oldbaseurl: "http://localhost:9090/",  (working spring)
   oldbaseurl: "http://localhost:8180/",
+  forntendBaseUrl: "http://localhost:4200/",
+};
+export const oldRoles = {
+  user: "User",
+  admin: "Admin",
 };
 
 export const api = {};
+
+//
+//
+//
+//
+//
+//New
+
+export const newRoles = {
+  user: "user",
+  admin: "admin",
+  unauthorized: "unauthorized",
+};
 
 export const oldapi = {
   //Products  :
@@ -33,4 +51,21 @@ export const oldapi = {
   authenticate: environment.oldbaseurl + "authenticate",
   forUser: environment.oldbaseurl + "forUser",
   forAdmin: environment.oldbaseurl + "forAdmin",
+  userEntry: environment.oldbaseurl + "api",
+
+  // CarouselService
+  getAllCarousel: environment.oldbaseurl + "carousel",
+  addCarousel: environment.oldbaseurl + "carousel",
+  updateCarousel: environment.oldbaseurl + "carousel/", // + id
+  deleteCarousel: environment.oldbaseurl + "carousel/", // + id
+};
+
+export const frontendUrl = {
+  login: environment.forntendBaseUrl + "login",
+  home: environment.forntendBaseUrl + "",
+};
+
+export const razorPay = {
+  key_id: "rzp_test_RYQrZWZnEz52RQ,",
+  key_secret: "4hq0ISZTg0t6YuMGB7cLrEHN",
 };

@@ -10,34 +10,42 @@ export class ImageProcessingService {
   constructor(private sanitizer: DomSanitizer) {}
 
   public createImages(product: Product) {
-    const productImages: any[] = product.productImages;
+    console.log("ImageUrls : " + product.imageUrls);
+    try {
+      //   const productImages: any[] = product.productImages;
 
-    const productImagesToFileHandle: FileHandle[] = [];
+      //   const productImagesToFileHandle: FileHandle[] = [];
 
-    for (let i = 0; i < productImages.length; i++) {
-      const imageFileData = productImages[i];
+      //   for (let i = 0; i < productImages.length; i++) {
+      //     const imageFileData = productImages[i];
 
-      const imageBlob = this.dataURItoBlob(
-        imageFileData.picByte,
-        imageFileData.type
-      );
+      //     const imageBlob = this.dataURItoBlob(
+      //       imageFileData.picByte,
+      //       imageFileData.type
+      //     );
 
-      const imageFile = new File([imageBlob], imageFileData.name, {
-        type: imageFileData.type,
-      });
+      //     const imageFile = new File([imageBlob], imageFileData.name, {
+      //       type: imageFileData.type,
+      //     });
 
-      const finalFileHandle: FileHandle = {
-        file: imageFile,
-        url: this.sanitizer.bypassSecurityTrustUrl(
-          window.URL.createObjectURL(imageFile)
-        ),
-      };
+      //     const finalFileHandle: FileHandle = {
+      //       file: imageFile,
+      //       url: this.sanitizer.bypassSecurityTrustUrl(
+      //         window.URL.createObjectURL(imageFile)
+      //       ),
+      //     };
 
-      productImagesToFileHandle.push(finalFileHandle);
+      //     productImagesToFileHandle.push(finalFileHandle);
+      //   }
+
+      //   product.productImages = productImagesToFileHandle;
+      product.productImages = [];
+    } catch (e) {
+      console.log(e);
+      // product.productImages = product.imageUrl;
+    } finally {
+      return product;
     }
-
-    product.productImages = productImagesToFileHandle;
-    return product;
   }
 
   public dataURItoBlob(picBytes, imageType) {

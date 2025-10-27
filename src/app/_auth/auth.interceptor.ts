@@ -11,13 +11,15 @@ import { catchError } from "rxjs/operators";
 import { Observable, throwError } from "rxjs";
 import { UserAuthService } from "../_services/user-auth.service";
 import { Injectable } from "@angular/core";
+import { KeycloakService } from "./keycloak.service";
 // import { KeycloakService } from "./keycloak.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private userAuthService: UserAuthService,
-    private router: Router
+    private router: Router,
+    private keycloakService: KeycloakService
   ) {}
 
   intercept(
@@ -35,24 +37,24 @@ export class AuthInterceptor implements HttpInterceptor {
     // }
 
     // Skip OPTIONS requests (preflight)
-    // if (req.method === "OPTIONS") {
-    //   return next.handle(req);
-    // }
+    if (req.method === "OPTIONS") {
+      return next.handle(req);
+    }
 
-    // const token = this.userAuthService.getToken();
-    // if (token) {
-    //   req = req.clone({
-    //     setHeaders: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   });
-    // }
+    const token = this.keycloakService.getUserToken();
+    if (token) {
+      req = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
 
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         console.log(err.status);
         if (err.status === 401) {
-          this.router.navigate(["/login"]);
+          this.router.navigate(["/"]);
         } else if (err.status === 403) {
           this.router.navigate(["/forbidden"]);
         }
