@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  inject,
   Injector,
   NgZone,
   OnInit,
@@ -8,10 +9,14 @@ import {
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 // import * as Razorpay from 'razorpay';
-import { OrderDetails } from "../_model/order-details.model";
+import {
+  OrderDetails,
+  ProductCartQuantity,
+} from "../_model/order-details.model";
 import { Product } from "../_model/product.model";
 import { ProductService } from "../_services/product.service";
 import { KeycloakService } from "../_auth/keycloak.service";
+import { UserAddressState } from "../store/user-adress/user.address.state";
 
 declare var Razorpay: any;
 
@@ -21,8 +26,13 @@ declare var Razorpay: any;
   styleUrls: ["./buy-product.component.css"],
 })
 export class BuyProductComponent implements OnInit {
+  private state = inject(UserAddressState);
+
   isSingleProductCheckout: string = "";
   productDetails: Product[] = [];
+
+  productDetailsQuantiy: ProductCartQuantity[] = [];
+  selectedAddress$ = this.state.selectedAddress$;
 
   orderDetails: OrderDetails = {
     fullName: "",
@@ -43,6 +53,10 @@ export class BuyProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.productDetails = this.activatedRoute.snapshot.data["productDetails"];
+    this.productDetailsQuantiy =
+      this.activatedRoute.snapshot.data["productDetailsQuantity"];
+    if (this.productDetailsQuantiy) {
+    }
     this.isSingleProductCheckout = this.activatedRoute.snapshot.paramMap.get(
       "isSingleProductCheckout"
     );
@@ -58,17 +72,17 @@ export class BuyProductComponent implements OnInit {
     console.log(this.orderDetails);
   }
 
-  public placeOrder(orderForm: NgForm) {
+  public placeOrder() {
     this.productService
       .placeOrder(this.orderDetails, this.isSingleProductCheckout)
       .subscribe(
         (resp) => {
           console.log(resp);
-          orderForm.reset();
+          // orderForm.reset();
 
           const ngZone = this.injector.get(NgZone);
           ngZone.run(() => {
-            this.router.navigate(["/orderConfirm"]);
+            this.router.navigate(["user/orderConfirm"]);
           });
         },
         (err) => {
@@ -112,12 +126,32 @@ export class BuyProductComponent implements OnInit {
     return grandTotal;
   }
 
-  createTransactionAndPlaceOrder(orderForm: NgForm) {
+  buildAddress() {
+    this.selectedAddress$.subscribe((address) => {
+      this.orderDetails.fullAddress = address.name;
+      this.orderDetails.contactNumber = address.contact;
+      this.orderDetails.alternateContactNumber = address.contact;
+      this.orderDetails.fullAddress =
+        address.address +
+        " , " +
+        address.city +
+        " , " +
+        address.state +
+        " , " +
+        address.pincode;
+    });
+  }
+
+  createTransactionAndPlaceOrder() {
+    if (this.selectedAddress$ == null) {
+      return;
+    }
+    this.buildAddress();
     let amount = this.getCalculatedGrandTotal();
     this.productService.createTransaction(amount).subscribe(
       (response) => {
         console.log(response);
-        this.openTransactioModal(response, orderForm);
+        this.openTransactioModal(response);
       },
       (error) => {
         console.log(error);
@@ -125,7 +159,7 @@ export class BuyProductComponent implements OnInit {
     );
   }
 
-  openTransactioModal(response: any, orderForm: NgForm) {
+  openTransactioModal(response: any) {
     var options = {
       order_id: response.orderId,
       key: response.key,
@@ -137,7 +171,7 @@ export class BuyProductComponent implements OnInit {
         "https://cdn.pixabay.com/photo/2023/01/22/13/46/swans-7736415_640.jpg",
       handler: (response: any) => {
         if (response != null && response.razorpay_payment_id != null) {
-          this.processResponse(response, orderForm);
+          this.processResponse(response);
         } else {
           alert("Payment failed..");
         }
@@ -159,8 +193,8 @@ export class BuyProductComponent implements OnInit {
     razorPayObject.open();
   }
 
-  processResponse(resp: any, orderForm: NgForm) {
+  processResponse(resp: any) {
     this.orderDetails.transactionId = resp.razorpay_payment_id;
-    this.placeOrder(orderForm);
+    this.placeOrder();
   }
 }

@@ -56,7 +56,7 @@ export class HeaderComponent implements OnInit {
     //     this.keycloak.getUserToken()
     // );
     this.keycloak.logoutUser();
-    // this.router.navigate(["/"]);
+    this.router.navigate(["/"]);
   }
 
   public isAdmin() {

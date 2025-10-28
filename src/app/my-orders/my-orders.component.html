@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<!-- <div class="container mt-5">
     <table mat-table
            [dataSource]="myOrderDetails"
            class="mat-elevation-z8">
@@ -44,4 +44,75 @@
         <tr mat-row
             *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+</div> -->
+
+<div class="container mt-4">
+  <h2 class="mb-3">My Orders</h2>
+
+  <mat-accordion multi>
+    <mat-expansion-panel
+      *ngFor="let order of myOrderDetails; let i = index"
+      [expanded]="i === 0"
+      class="order-panel"
+    >
+      <mat-expansion-panel-header>
+        <div
+          class="order-summary w-100 d-flex justify-content-between align-items-center"
+        >
+          <div class="left-info">
+            <h4 class="m-0">{{ order.orderFullName }}</h4>
+            <p class="m-0 small text-muted">Order ID: {{ order.orderId }}</p>
+            <p class="m-0 small text-muted">
+              Placed on: {{ order.orderDate | date : "mediumDate" }}
+            </p>
+          </div>
+
+          <div class="right-info text-end">
+            <p class="m-0 fw-bold fs-5">₹{{ order.orderAmount }}</p>
+            <span
+              class="status-badge"
+              [ngClass]="{
+                'status-delivered':
+                  order.orderStatus.toLowerCase() === 'delivered',
+                'status-placed': order.orderStatus.toLowerCase() === 'placed',
+                'status-pending': order.orderStatus.toLowerCase() === 'pending',
+                'status-cancelled':
+                  order.orderStatus.toLowerCase() === 'cancelled'
+              }"
+            >
+              {{ order.orderStatus }}
+            </span>
+          </div>
+        </div>
+      </mat-expansion-panel-header>
+
+      <!-- Expanded details -->
+      <div class="order-details mt-2">
+        <p><strong>Delivery Address:</strong> {{ order.orderFullOrder }}</p>
+        <p><strong>Contact:</strong> {{ order.orderContactNumber }}</p>
+        <p *ngIf="order.orderAlternateContactNumber">
+          <strong>Alternate Contact:</strong>
+          {{ order.orderAlternateContactNumber }}
+        </p>
+
+        <div class="product-info mt-3 p-3 rounded">
+          <h5>Product Details</h5>
+          <p><strong>Name:</strong> {{ order.product?.productName }}</p>
+          <p>
+            <strong>Price:</strong> ₹{{ order.product?.productDiscountedPrice }}
+          </p>
+          <p>
+            <strong>Description:</strong>
+            {{ order.product?.productDescription }}
+          </p>
+        </div>
+
+        <div class="mt-3 text-end">
+          <button mat-raised-button color="primary" (click)="trackOrder(order)">
+            Track Order
+          </button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { CarouselState } from "./carousel.state";
+import { CarouselState } from "../main.store";
 
 export const selectCarouselState =
   createFeatureSelector<CarouselState>("carousel");

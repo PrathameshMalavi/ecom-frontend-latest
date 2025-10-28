@@ -38,10 +38,11 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { AdminModule } from "./admin_module/admin.module";
 import { MatCardModule } from "@angular/material/card";
 import { MatSelectModule } from "@angular/material/select";
+import { MatExpansionModule } from "@angular/material/expansion";
 import { CommonModule } from "@angular/common";
 import { AdminRoutingModule } from "./admin_module/admin-routing.module";
 import { KeycloakService } from "./_auth/keycloak.service";
-import { StoreModule } from "@ngrx/store";
+import { createReducer, StoreModule } from "@ngrx/store";
 import { carouselReducer } from "./store/caraousel/carousel.reducer";
 import { EffectsModule } from "@ngrx/effects";
 import { CarouselEffects } from "./store/caraousel/carousel.effects.ts";
@@ -49,6 +50,14 @@ import { CarouselComponentComponent } from "./carousel-component/carousel-compon
 import { AddCarouselComponent } from "./carousel-component/add-carousel/add-carousel.component";
 import { ManageCarouselComponent } from "./carousel-component/manage-carousel/manage-carousel.component";
 import { CarouselBannerComponent } from "./carousel-component/carousel-view-componet";
+import { cartReducer } from "./store/cart/cart.reducer";
+import { CartEffects } from "./store/cart/cart.effects.ts";
+import { SidebarComponent } from "./admin/sidebar/sidebar.component";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { LoaderComponent } from "./loader.component";
+import { SearchBarComponent } from "./search.component";
+import { UserAddressCardsComponent } from "./address/user-address-car.compoenent";
+
 // import { MatTableModule } from '@angular/material/table';
 
 export function kcFactory(kcService: KeycloakService) {
@@ -79,6 +88,7 @@ export function kcFactory(kcService: KeycloakService) {
     ManageCarouselComponent,
     CarouselBannerComponent,
     AddCarouselComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,12 +108,20 @@ export function kcFactory(kcService: KeycloakService) {
     MatIconModule,
     MatCardModule,
     MatSelectModule,
+    MatExpansionModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.forRoot({ carousel: carouselReducer }),
-    EffectsModule.forRoot([CarouselEffects]),
+    StoreModule.forRoot({
+      carousel: carouselReducer,
+      cart: cartReducer,
+      // products: productsReducer,
+      // orders: ordersReducer,
+    }),
+    EffectsModule.forRoot([CarouselEffects, CartEffects]),
     MatTableModule,
+    SearchBarComponent,
+    UserAddressCardsComponent,
   ],
   providers: [
     AuthGuard,

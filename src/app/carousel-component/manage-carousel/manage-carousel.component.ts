@@ -5,6 +5,11 @@ import { CarouselComponentComponent } from "../carousel-component.component";
 import { MatDialog } from "@angular/material/dialog";
 import { AddCarouselComponent } from "../add-carousel/add-carousel.component";
 import { CarouselBannerComponent } from "../carousel-view-componet";
+import * as CarouselSelctors from "../../store/caraousel/carousel.selectors";
+import * as CarouselAction from "../../store/caraousel/carousel.actions";
+
+import { Observable } from "rxjs";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-manage-carousel",
@@ -21,14 +26,22 @@ export class ManageCarouselComponent {
   ];
 
   dataSource: Carousel[] = [];
+  carousel$: Observable<Carousel[]>;
+  loading$: Observable<boolean>;
 
   constructor(
+    private store: Store,
     private dialog: MatDialog,
     private carouselService: CaraouselService
-  ) {}
+  ) {
+    this.carousel$ = this.store.select(CarouselSelctors.selectAllCarousels);
+    this.loading$ = this.store.select(CarouselSelctors.selectCarouselLoading);
+    // this.size$ = this.store.select(CartSelectors.selectCartSize);
+  }
 
   ngOnInit(): void {
-    this.loadCarousels();
+    // this.loadCarousels();
+    this.store.dispatch(CarouselAction.loadCarousels());
   }
 
   loadCarousels(): void {
@@ -39,13 +52,15 @@ export class ManageCarouselComponent {
   }
 
   deleteCarousel(id?: number): void {
-    if (!id) return;
-    if (confirm("Are you sure you want to delete this carousel?")) {
-      this.carouselService.deleteCarousel(id).subscribe({
-        next: () => this.loadCarousels(), // reload after delete
-        error: (err) => console.error("Delete failed", err),
-      });
-    }
+    this.store.dispatch(CarouselAction.deleteCarousel({ id: id }));
+
+    // if (!id) return;
+    // if (confirm("Are you sure you want to delete this carousel?")) {
+    //   this.carouselService.deleteCarousel(id).subscribe({
+    //     next: () => this.loadCarousels(), // reload after delete
+    //     error: (err) => console.error("Delete failed", err),
+    //   });
+    // }
   }
 
   // viewCarousel(carousel: Carousel): void {
@@ -55,17 +70,17 @@ export class ManageCarouselComponent {
   //   });
   // }
 
-  viewCarousel(carousel: Carousel): void {
-    const val = carousel.imageUrl;
-    this.dialog.open(CarouselBannerComponent, {
-      data: { val },
-      panelClass: "carousel-dialog",
-      width: "80vw",
-      maxWidth: "900px",
-    });
-  }
+  // viewCarousel(carousel: Carousel): void {
+  //   const val = carousel.imageUrl;
+  //   this.dialog.open(CarouselBannerComponent, {
+  //     data: { val },
+  //     panelClass: "carousel-dialog",
+  //     width: "80vw",
+  //     maxWidth: "900px",
+  //   });
+  // }
 
-  updateCarousel(carousel: Carousel): void {
+  viewCarousel(carousel: Carousel): void {
     const dialogRef = this.dialog.open(CarouselComponentComponent, {
       data: carousel,
       width: "800px",
@@ -73,22 +88,33 @@ export class ManageCarouselComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === "updated") {
-        this.loadCarousels(); // reload after update
+        // this.loadCarousels(); // reload after update
       }
     });
   }
 
+  // updateCarousel(carousel: Carousel): void {
+  //   const dialogRef = this.dialog.open(CarouselComponentComponent, {
+  //     data: carousel,
+  //     width: "800px",
+  //   });
+
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result === "updated") {
+  //       this.loadCarousels(); // reload after update
+  //     }
+  //   });
+  // }
+
   onAddClick(): void {
     const dialogRef = this.dialog.open(AddCarouselComponent, {
-      width: "800px",
-      height: "800px",
+      width: "600px",
+      height: "700px",
       data: null,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result === "updated") {
-        this.loadCarousels(); // reload after update
-      }
+      this.store.dispatch(CarouselAction.loadCarousels());
     });
   }
 }

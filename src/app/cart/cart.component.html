@@ -1,51 +1,98 @@
-<div class="container mt-5">
-    <div align="right" class="mb-3">
-        <button (click)="checkout()" color="primary" mat-raised-button>Checkout</button>
-    </div>
-    <table mat-table
-           [dataSource]="cartDetails"
-           class="mat-elevation-z8">
-
-        <ng-container matColumnDef="Name">
-            <th mat-header-cell
-                *matHeaderCellDef> Name </th>
-            <td mat-cell
-                *matCellDef="let element"> {{element.product.productName}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Description">
-            <th mat-header-cell
-                *matHeaderCellDef> Description </th>
-            <td mat-cell
-                *matCellDef="let element"> {{element.product.productDescription}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Price">
-            <th mat-header-cell
-                *matHeaderCellDef> Price </th>
-            <td mat-cell
-                *matCellDef="let element"> {{element.product.productActualPrice}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Discounted Price">
-            <th mat-header-cell
-                *matHeaderCellDef> Discounted Price </th>
-            <td mat-cell
-                *matCellDef="let element"> {{element.product.productDiscountedPrice}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Action">
-            <th mat-header-cell
-                *matHeaderCellDef> Action </th>
-            <td mat-cell
-                *matCellDef="let element"> 
-                <button mat-raised-button color="warn" (click)="delete(element.cartId)">Delete</button>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row
-            *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row
-            *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+@if(loading$ | async){
+<div class="loading-overlay">
+  <mat-progress-spinner color="primary" mode="indeterminate" diameter="60">
+  </mat-progress-spinner>
 </div>
+} @else { @if((size$ | async) > 0){
+
+<!-- 
+
+
+   -->
+<div class="cart-container mt-5">
+  <div class="cart-header">
+    <h2 class="cart-title">🛒 Your Shopping Cart</h2>
+    <button mat-raised-button color="primary" (click)="checkout()">
+      Proceed to Checkout
+    </button>
+  </div>
+
+  <div
+    class="cart-list"
+    *ngIf="(cartDetails$ | async)?.length > 0; else emptyCart"
+  >
+    <mat-card *ngFor="let element of cartDetails$ | async" class="cart-item">
+      <div class="cart-content">
+        <!-- Product Image -->
+        <div class="cart-image">
+          <img
+            [src]="
+              element.product.imageUrls && element.product.imageUrls.length > 0
+                ? element.product.imageUrls[0]
+                : 'assets/images/noproductimage.png'
+            "
+            alt="Product Image"
+          />
+        </div>
+
+        <!-- Product Info -->
+        <div class="cart-info">
+          <h3 class="product-name">{{ element.product.productName }}</h3>
+          <p
+            class="product-description"
+            matTooltip="{{ element.product.productDescription }}"
+          >
+            {{ element.product.productDescription }}
+          </p>
+
+          <div class="price-section">
+            <span class="discounted-price">
+              ₹{{ element.product.productDiscountedPrice }}
+            </span>
+            <span class="actual-price">
+              ₹{{ element.product.productActualPrice }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="cart-actions">
+          <button
+            mat-mini-fab
+            color="primary"
+            matTooltip="View Product"
+            (click)="viewProduct(element.product)"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+          <button
+            mat-mini-fab
+            color="warn"
+            matTooltip="Remove from Cart"
+            (click)="delete(element.cartId)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<!-- 
+
+
+
+ -->
+
+}@else {
+<div class="empty-cart-container">
+  <mat-icon class="empty-cart-icon" color="accent">shopping_cart</mat-icon>
+  <h3>Your cart is empty</h3>
+  <p>Add some items to get started!</p>
+  <button mat-raised-button color="primary" (click)="goToShop()">
+    Shop Now
+  </button>
+</div>
+} }

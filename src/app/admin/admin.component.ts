@@ -1,15 +1,72 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { UserAuthService } from "../_services/user-auth.service";
+import { KeycloakService } from "../_auth/keycloak.service";
+import { Router } from "@angular/router";
+import { UserService } from "../_services/user.service";
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: "app-admin",
+  templateUrl: "./admin.component.html",
+  styleUrls: ["./admin.component.css"],
 })
 export class AdminComponent implements OnInit {
+  constructor(
+    private userAuthService: UserAuthService,
+    private keycloak: KeycloakService,
+    private router: Router,
+    public userService: UserService
+  ) {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  //loginbutton
+  isLoggedOut() {
+    if (this.keycloak.isLoggedIn()) {
+      return false;
+    }
+    return true;
   }
 
+  //logoutbutton
+  public isLoggedIn() {
+    if (this.keycloak.isLoggedIn()) {
+      return true;
+    }
+    return false;
+  }
+
+  public login() {
+    this.keycloak.login();
+    // this.router.navigate(["/"]);
+  }
+
+  public logout() {
+    // console.log(
+    //   "isAdmin : " +
+    //     this.keycloak.isAdmin() +
+    //     "isUser : " +
+    //     this.keycloak.isUser() +
+    //     "isUserAuthenticated : " +
+    //     this.keycloak.isUserAuthenticated() +
+    //     "getUserRoleToken : " +
+    //     this.keycloak.getUserRoles() +
+    //     "isUserAuthenticated : " +
+    //     this.keycloak.isUserAuthenticated() +
+    //     "getToken : " +
+    //     this.keycloak.getUserToken()
+    // );
+    this.keycloak.logoutUser();
+    this.router.navigate(["/"]);
+  }
+
+  public isAdmin() {
+    return this.keycloak.isAdmin();
+  }
+
+  public isUser() {
+    if (this.isAdmin()) {
+      return false;
+    }
+    return this.keycloak.isUser();
+  }
 }

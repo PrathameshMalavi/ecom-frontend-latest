@@ -1,6 +1,12 @@
 import { createReducer, on } from "@ngrx/store";
 import * as CarouselActions from "./carousel.actions";
-import { CarouselState, initialCarouselState } from "./carousel.state";
+import { CarouselState } from "../main.store";
+
+export const initialCarouselState: CarouselState = {
+  carousels: [],
+  loading: false,
+  error: null,
+};
 
 export const carouselReducer = createReducer(
   initialCarouselState,

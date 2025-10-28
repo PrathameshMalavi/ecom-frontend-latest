@@ -1,6 +1,69 @@
-<div class="container mt-5">
+<!-- <div class="container mt-5">
     <div class="card text-center" style="padding: 20px; color: red;">
         <h1>You are User</h1>
         <h1>{{message}}</h1>
     </div>
-</div>
+</div> -->
+
+<mat-toolbar color="primary" class="navbar">
+  <!-- Left: Logo + Title -->
+  <div class="navbar-left" routerLink="/" style="cursor: pointer">
+    <img
+      src="assets/images/no_product_image.png"
+      alt="Logo"
+      class="navbar-logo"
+    />
+    <span class="navbar-title">E-Commerce</span>
+  </div>
+
+  <!-- Right: Navigation -->
+  <div class="navbar-right" *ngIf="isLoggedIn()">
+    <button mat-icon-button routerLink="home" matTooltip="Home">
+      <mat-icon>home</mat-icon>
+    </button>
+
+    <button
+      *ngIf="isUser()"
+      mat-icon-button
+      routerLink="/user/cart"
+      matBadge="{{ cartCount }}"
+      matBadgeColor="warn"
+      matTooltip="Cart"
+    >
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+
+    <button
+      *ngIf="isUser()"
+      mat-icon-button
+      routerLink="/user/myOrders"
+      matTooltip="My Orders"
+    >
+      <mat-icon>receipt_long</mat-icon>
+    </button>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Modern Logout Button -->
+    <button
+      *ngIf="isLoggedIn()"
+      class="logout-btn"
+      (click)="logout()"
+      matRipple
+    >
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </div>
+
+  <!-- If logged out -->
+  <div class="navbar-right" *ngIf="isLoggedOut()">
+    <button class="login-btn" (click)="login()" matRipple>
+      <mat-icon>login</mat-icon>
+      <span>Login</span>
+    </button>
+  </div>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

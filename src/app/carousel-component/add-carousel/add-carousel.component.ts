@@ -23,6 +23,7 @@ export class AddCarouselComponent {
   carouselForm: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer = "";
+  isLoading = false;
 
   carousel: Carousel = {
     id: null,
@@ -127,6 +128,7 @@ export class AddCarouselComponent {
       new Blob([JSON.stringify(newCarouselObj)], { type: "application/json" })
     );
 
+    this.isLoading = true;
     this.carouselService.addCaraousel(formData).subscribe({
       next: () => {
         console.log("Carousel added successfully (check console)");
@@ -134,8 +136,12 @@ export class AddCarouselComponent {
         this.selectedFile = null;
         this.previewUrl = "";
         // this.router.navigate()
+        this.dialogRef.close({ result: "added" });
+        this.isLoading = false;
       },
       error: (err) => {
+        this.isLoading = false;
+
         console.error(err);
       },
     });

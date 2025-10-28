@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="carousel$ | async" class="mat-elevation-z8">
   <!-- ID Column -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -42,14 +42,6 @@
         (click)="viewCarousel(element)"
       >
         <mat-icon>visibility</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        color="accent"
-        aria-label="Edit"
-        (click)="updateCarousel(element)"
-      >
-        <mat-icon>edit</mat-icon>
       </button>
       <button
         mat-icon-button

@@ -1,0 +1,54 @@
+/* Sidebar container  */
+nav {
+  width: 250px; /* Slightly wider for more padding */
+  height: 100vh; /* Full viewport height */
+  background-color: #f8f9fa; /* Light background */
+  border-right: 1px solid #dee2e6; /* Border for separation */
+  padding: 1.5rem 1rem; /* More top/bottom padding */
+  font-family: "Roboto", sans-serif;
+}
+
+/* List items */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Links inside sidebar */
+nav ul li a {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Slightly more space between icon and text */
+  padding: 1rem 1.2rem; /* Increased vertical and horizontal padding */
+  color: #333; /* Text color */
+  text-decoration: none;
+  border-radius: 0.5rem; /* Slightly more rounded corners */
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  font-size: 1rem; /* Slightly larger font for readability */
+}
+
+/* Hover effect */
+nav ul li a:hover {
+  background-color: rgba(25, 118, 210, 0.1); /* Light blue background */
+  color: #1976d2; /* Blue text */
+  cursor: pointer;
+}
+
+/* Active link */
+nav ul li a.active {
+  background-color: #1976d2; /* Material blue */
+  color: #fff; /* White text */
+}
+
+/* Material icon styling */
+nav ul li a .material-icons {
+  font-size: 22px; /* Slightly larger icons */
+  vertical-align: middle;
+}
+
+/* Optional spacing between items */
+nav ul li {
+  margin-bottom: 0.75rem; /* More spacing between items */
+}

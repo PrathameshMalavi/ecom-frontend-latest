@@ -58,6 +58,12 @@ export const oldapi = {
   addCarousel: environment.oldbaseurl + "carousel",
   updateCarousel: environment.oldbaseurl + "carousel/", // + id
   deleteCarousel: environment.oldbaseurl + "carousel/", // + id
+
+  // address
+  getAllAddress: environment.oldbaseurl + "address/", // + userName
+  addAddress: environment.oldbaseurl + "address/", // + id
+  updateAddress: environment.oldbaseurl + "address/", // + id
+  deleteAddress: environment.oldbaseurl + "address/", // + id
 };
 
 export const frontendUrl = {

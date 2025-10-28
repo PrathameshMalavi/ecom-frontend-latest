@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { ImageProcessingService } from "../image-processing.service";
 import { Product } from "../_model/product.model";
 import { ProductService } from "../_services/product.service";
+import { KeycloakService } from "../_auth/keycloak.service";
 
 @Component({
   selector: "app-home",
@@ -15,13 +16,15 @@ export class HomeComponent implements OnInit {
   pageNumber: number = 0;
 
   productDetails = [];
+  searchText: string = "";
 
   showLoadButton = false;
 
   constructor(
     private productService: ProductService,
     private imageProcessingService: ImageProcessingService,
-    private router: Router
+    private router: Router,
+    private keycloak: KeycloakService
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +39,7 @@ export class HomeComponent implements OnInit {
   }
 
   public getAllProducts(searchKey: string = "") {
+    this.searchText = searchKey;
     this.productService
       .getAllProducts(this.pageNumber, searchKey)
       .pipe(
@@ -67,6 +71,14 @@ export class HomeComponent implements OnInit {
   }
 
   showProductDetails(productId) {
+    if (this.keycloak.isUser()) {
+      this.router.navigate([
+        "/user/productViewDetails",
+        { productId: productId },
+      ]);
+      return;
+    }
+
     this.router.navigate(["/productViewDetails", { productId: productId }]);
   }
 }

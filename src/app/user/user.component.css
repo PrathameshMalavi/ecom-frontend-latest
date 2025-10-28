@@ -1,0 +1,95 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  height: 64px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Left Section */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-logo {
+  height: 38px;
+  width: 38px;
+  border-radius: 50%;
+}
+
+.navbar-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+/* Right Section */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Divider between icons and button */
+.divider {
+  height: 28px;
+  width: 1.5px;
+  background: rgba(255, 255, 255, 0.4);
+  margin: 0 10px;
+}
+
+/* Modern Buttons */
+.logout-btn,
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  color: #1976d2;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover,
+.login-btn:hover {
+  background-color: #e3f2fd;
+  transform: translateY(-1px);
+}
+
+/* Logout Button Red Accent */
+.logout-btn {
+  color: #d32f2f;
+  background-color: #fff;
+}
+
+.logout-btn:hover {
+  background-color: #ffebee;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-title {
+    display: none;
+  }
+
+  .logout-btn span,
+  .login-btn span {
+    display: none;
+  }
+
+  .divider {
+    display: none;
+  }
+}

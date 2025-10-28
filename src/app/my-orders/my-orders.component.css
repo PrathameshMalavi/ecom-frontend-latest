@@ -1,3 +1,86 @@
-table {
+/* table {
     width: 100%;
+} */
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.order-panel {
+  border-radius: 12px !important;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  mat-expansion-panel-header {
+    padding: 1rem 1.5rem !important;
+    background-color: #dfdede;
+    min-height: 90px !important;
+  }
+
+  .order-summary {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .left-info h4 {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .left-info p {
+      margin: 2px 0;
+    }
+
+    .right-info {
+      .fs-5 {
+        font-size: 1.1rem;
+      }
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .status-delivered {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-placed {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+
+    .status-pending {
+      background-color: #fff8e1;
+      color: #f57c00;
+    }
+
+    .status-cancelled {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+  }
+
+  .order-details {
+    padding: 1rem 1.5rem;
+
+    .product-info {
+      background: #f9f9f9;
+      border: 1px solid #eee;
+    }
+
+    button {
+      border-radius: 8px;
+      padding: 6px 16px;
+    }
+  }
 }

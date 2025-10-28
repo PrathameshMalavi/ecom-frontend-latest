@@ -1,5 +1,67 @@
-<div class="container mt-5">
-    <div class="card text-center" style="color: green; padding: 20px;">
-        <h1>You are Admin</h1>
-    </div>
+<mat-toolbar color="primary" class="navbar">
+  <div class="navbar-left" routerLink="/" style="cursor: pointer">
+    <img
+      src="assets/images/no_product_image.png"
+      alt="Logo"
+      class="navbar-logo"
+    />
+    <span class="navbar-title">E-Commerce - Admin Management</span>
+  </div>
+
+  <div class="navbar-right" *ngIf="isLoggedIn()">
+    <!-- <button mat-icon-button routerLink="home" matTooltip="Home">
+      <mat-icon>home</mat-icon>
+    </button>
+
+    <button
+      *ngIf="isUser()"
+      mat-icon-button
+      routerLink="/user/cart"
+      matBadge="{{ cartCount }}"
+      matBadgeColor="warn"
+      matTooltip="Cart"
+    >
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+
+    <button
+      *ngIf="isUser()"
+      mat-icon-button
+      routerLink="/user/myOrders"
+      matTooltip="My Orders"
+    >
+      <mat-icon>receipt_long</mat-icon>
+    </button> -->
+
+    <div class="divider"></div>
+
+    <!-- Modern Logout Button -->
+    <button
+      *ngIf="isLoggedIn()"
+      class="logout-btn"
+      (click)="logout()"
+      matRipple
+    >
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </div>
+
+  <!-- If logged out -->
+  <div class="navbar-right" *ngIf="isLoggedOut()">
+    <button class="login-btn" (click)="login()" matRipple>
+      <mat-icon>login</mat-icon>
+      <span>Login</span>
+    </button>
+  </div>
+</mat-toolbar>
+
+<div class="admin-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-content-area">
+    <section class="content-section">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
 </div>
