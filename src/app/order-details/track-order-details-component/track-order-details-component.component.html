@@ -1,0 +1,130 @@
+<div class="container m-20" *ngIf="!isLoading">
+  <h2 mat-dialog-title class="dialog-title">Order Progress</h2>
+
+  <mat-dialog-content class="dialog-content">
+    <mat-accordion multi>
+      <!-- Step 1 -->
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Step 1: Shipping Confirmation </mat-panel-title>
+          <mat-icon *ngIf="step1Completed" color="primary"
+            >check_circle</mat-icon
+          >
+        </mat-expansion-panel-header>
+
+        <div class="panel-body">
+          <p>Review the order and confirm the confirm dispatch.</p>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="markAsShipped(data.orderId)"
+            [disabled]="step1Completed"
+          >
+            Order Shipped
+          </button>
+        </div>
+      </mat-expansion-panel>
+
+      <!-- Step 2 -->
+      <mat-expansion-panel [disabled]="!step1Completed">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Step 2: Track Order </mat-panel-title>
+          <mat-icon *ngIf="step2Completed" color="primary"
+            >check_circle</mat-icon
+          >
+        </mat-expansion-panel-header>
+        @if(!step2Completed){
+        <div class="panel-body">
+          <div class="order-preview-container">
+            <div class="header">
+              <h3>Order Preview</h3>
+              <button mat-mini-fab color="primary" (click)="openAddDialog()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <table
+              mat-table
+              [dataSource]="ordersNew$ | async"
+              class="mat-elevation-z8 small-table"
+            >
+              <!-- Order ID Column -->
+              <ng-container matColumnDef="orderId">
+                <th mat-header-cell *matHeaderCellDef>Order ID</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.id }}
+                </td>
+              </ng-container>
+
+              <!-- Address Column -->
+              <ng-container matColumnDef="address">
+                <th mat-header-cell *matHeaderCellDef>Address</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.address }}
+                </td>
+              </ng-container>
+
+              <!-- DateTime Column -->
+              <ng-container matColumnDef="dateTime">
+                <th mat-header-cell *matHeaderCellDef>Date & Time</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.date | date : "short" }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </div>
+        }
+        <p>
+          Note Update the Tracking Details and in the end confirm on reaching
+          the destination.
+        </p>
+        <button
+          mat-stroked-button
+          color="accent"
+          (click)="markAsReachedDestination(data.orderId)"
+          [disabled]="step2Completed"
+        >
+          Reached Destination
+        </button>
+      </mat-expansion-panel>
+
+      <!-- Step 3 -->
+      <mat-expansion-panel [disabled]="!step2Completed">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Step 3: Mark as Delivered </mat-panel-title>
+          <mat-icon *ngIf="step3Completed" color="primary"
+            >check_circle</mat-icon
+          >
+        </mat-expansion-panel-header>
+
+        <div class="panel-body">
+          <p>Confirm the product has been delivered to the customer.</p>
+          <button
+            mat-stroked-button
+            color="warn"
+            (click)="markAsDelivered(data.orderId)"
+            [disabled]="step3Completed"
+          >
+            Mark as Delivered
+          </button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button color="primary" (click)="close()">Close</button>
+  </mat-dialog-actions>
+</div>
+
+<div *ngIf="isLoading" class="loader-container">
+  <mat-progress-spinner
+    mode="indeterminate"
+    diameter="40"
+    color="primary"
+  ></mat-progress-spinner>
+</div>

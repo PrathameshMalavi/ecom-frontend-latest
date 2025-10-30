@@ -23,6 +23,7 @@ import { AddNewCategoryComponent } from "./admin_module/pages/category/add-new-c
 import { AddCarouselComponent } from "./carousel-component/add-carousel/add-carousel.component";
 import { CarouselComponentComponent } from "./carousel-component/carousel-component.component";
 import { ManageCarouselComponent } from "./carousel-component/manage-carousel/manage-carousel.component";
+import { UserHomeComponentComponent } from "./home/user.home.component/user.home.component.component";
 
 const routes: Routes = [
   // {
@@ -65,7 +66,7 @@ const routes: Routes = [
     children: [
       {
         path: "home",
-        component: HomeComponent, // if you have a specific home page
+        component: UserHomeComponentComponent, // if you have a specific home page
       },
       {
         path: "productViewDetails",
@@ -146,11 +147,6 @@ const routes: Routes = [
     data: { roles: [newRoles.admin] },
     children: [
       {
-        path: "",
-        redirectTo: "showProductDetails",
-        pathMatch: "full",
-      },
-      {
         path: "addNewProduct",
         component: AddNewProductComponent,
         resolve: {
@@ -172,6 +168,11 @@ const routes: Routes = [
       {
         path: "orderInformation",
         component: OrderDetailsComponent,
+      },
+      {
+        path: "",
+        redirectTo: "showProductDetails",
+        pathMatch: "full",
       },
       {
         path: "adminMod",

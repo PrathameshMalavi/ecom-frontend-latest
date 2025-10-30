@@ -3,6 +3,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Product } from "../_model/product.model";
 import { ProductService } from "../_services/product.service";
 import { KeycloakService } from "../_auth/keycloak.service";
+import * as CartActions from "../store/cart/cart.actions";
+import { common } from "../enviroments";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: "app-product-view-details",
@@ -18,7 +21,8 @@ export class ProductViewDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private keycloak: KeycloakService
+    private keycloak: KeycloakService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +33,7 @@ export class ProductViewDetailsComponent implements OnInit {
   addToCart(productId) {
     this.productService.addToCart(productId).subscribe(
       (response) => {
+        this.store.dispatch(CartActions.loadCart());
         console.log(response);
       },
       (error) => {
@@ -43,7 +48,7 @@ export class ProductViewDetailsComponent implements OnInit {
 
   buyProduct(productId) {
     this.router.navigate([
-      "/buyProduct",
+      "user/buyProduct",
       {
         isSingleProductCheckout: true,
         id: productId,
@@ -56,5 +61,13 @@ export class ProductViewDetailsComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  isAuthenticated() {
+    return this.keycloak.isUserAuthenticated();
+  }
+
+  getProductDescription() {
+    return this.product.productDescription + " " + common.desptext;
   }
 }

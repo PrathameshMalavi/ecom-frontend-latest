@@ -9,6 +9,7 @@ import { ShowProductImagesDialogComponent } from "../show-product-images-dialog/
 import { Product } from "../_model/product.model";
 import { ProductService } from "../_services/product.service";
 import { forkJoin } from "rxjs";
+import { common, CommonClass } from "../enviroments";
 
 @Component({
   selector: "app-show-product-details",
@@ -136,6 +137,11 @@ export class ShowProductDetailsComponent implements OnInit {
   }
 
   editProductDetails(productId) {
-    this.router.navigate(["/addNewProduct", { productId: productId }]);
+    this.router.navigate(["/admin/addNewProduct", { productId: productId }]);
+  }
+
+  getDescription(des: string) {
+    let s = des + " " + common.desptext;
+    return CommonClass.truncateDescription(s, 1000);
   }
 }

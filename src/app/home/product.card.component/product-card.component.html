@@ -1,0 +1,93 @@
+<!-- 
+<mat-card class="product-card mat-elevation-z3">
+  <div class="image-container">
+    <img
+      [src]="displayImage"
+      alt="{{ product.productName }}"
+      class="product-image"
+      loading="lazy"
+    />
+    <div *ngIf="hasPriceDrop" class="price-drop-alert">Price dropped!</div>
+  </div>
+
+  <mat-card-content>
+    <h3 class="product-name">{{ product.productName }}</h3>
+    <p class="product-description" title="{{ product.productDescription }}">
+      {{ getDescription(product) }}
+    </p>
+
+    <div class="price-info">
+      <span class="discounted-price"
+        >Rs. {{ product.productDiscountedPrice }}</span
+      >
+      <span
+        class="actual-price"
+        *ngIf="product.productActualPrice !== product.productDiscountedPrice"
+        >Rs. {{ product.productActualPrice | number }}</span
+      >
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="isInCart"
+      (click)="onAddToCart()"
+      class="add-to-cart-btn"
+    >
+      {{ isInCart ? "Added to Cart" : "Add to Cart" }}
+    </button>
+    <button
+      style="margin: auto"
+      mat-stroked-button
+      color="warn"
+      (click)="showProductDetails(product.productId)"
+      class="view-details-btn"
+    >
+      View Details
+    </button>
+  </mat-card-actions>
+</mat-card> -->
+
+<mat-card class="product-card mat-elevation-z3">
+  <div class="image-container">
+    <img
+      [src]="displayImage"
+      alt="{{ product.productName }}"
+      class="product-image"
+      loading="lazy"
+    />
+    <div *ngIf="hasPriceDrop" class="price-drop-alert">Price dropped!</div>
+  </div>
+
+  <mat-card-content>
+    <h3 class="product-name">{{ product.productName }}</h3>
+    <p class="product-description" title="{{ product.productDescription }}">
+      {{ getDescription(product) }}
+    </p>
+
+    <div class="price-info">
+      <span class="discounted-price"
+        >Rs. {{ product.productDiscountedPrice }}</span
+      >
+      <span
+        class="actual-price"
+        *ngIf="product.productActualPrice !== product.productDiscountedPrice"
+        >Rs. {{ product.productActualPrice | number }}</span
+      >
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button
+      style="margin: auto"
+      mat-stroked-button
+      color="primary"
+      (click)="showProductDetails(product.productId)"
+      class="view-details-btn"
+    >
+      View Details
+    </button>
+  </mat-card-actions>
+</mat-card>

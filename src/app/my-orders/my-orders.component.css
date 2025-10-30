@@ -1,6 +1,9 @@
 /* table {
     width: 100%;
 } */
+html,
+body {
+}
 
 .container {
   max-width: 900px;

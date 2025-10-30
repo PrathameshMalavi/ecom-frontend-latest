@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<!-- <div class="container mt-5">
   <mat-button-toggle-group  aria-label="Font Style">
     <mat-button-toggle value="All" (click)="getAllOrderDetailsForAdmin('All')">All</mat-button-toggle>
     <mat-button-toggle value="Placed" (click)="getAllOrderDetailsForAdmin('Placed')">Placed</mat-button-toggle>
@@ -12,37 +12,31 @@
       <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
     </ng-container>
   
-    <!-- Product Name Column -->
     <ng-container matColumnDef="Product Name">
       <th mat-header-cell *matHeaderCellDef> Product Name </th>
       <td mat-cell *matCellDef="let element"> {{element.product.productName}} </td>
     </ng-container>
   
-    <!-- Name Column -->
     <ng-container matColumnDef="Name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.user.userFirstName}} </td>
     </ng-container>
   
-    <!-- Address Column -->
     <ng-container matColumnDef="Address">
       <th mat-header-cell *matHeaderCellDef> Address </th>
       <td mat-cell *matCellDef="let element"> {{element.orderFullOrder}} </td>
     </ng-container>
 
-     <!-- Contact No. Column -->
      <ng-container matColumnDef="Contact No.">
         <th mat-header-cell *matHeaderCellDef> Contact No. </th>
         <td mat-cell *matCellDef="let element"> {{element.orderContactNumber}} </td>
       </ng-container>
 
-       <!-- orderStatus Column -->
      <ng-container matColumnDef="Status">
         <th mat-header-cell *matHeaderCellDef> Status </th>
         <td mat-cell *matCellDef="let element"> {{element.orderStatus}} </td>
       </ng-container>
 
-       <!-- Action Column -->
      <ng-container matColumnDef="Action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
       <td mat-cell *matCellDef="let element"> 
@@ -53,4 +47,154 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>  
+</div> -->
+
+<div class="container mt-5">
+  <div class="orders-container mat-elevation-z4">
+    <h2 class="table-title">📦 Orders Overview</h2>
+
+    <!-- <div class="order-filter-container">
+      <h3 class="filter-title">Filter Orders</h3>
+
+      <mat-button-toggle-group
+        name="orderStatus"
+        aria-label="Order Filter"
+        [value]="selectedStatus"
+        (change)="getAllOrderDetailsForAdmin($event.value)"
+        class="filter-toggle-group"
+      >
+        <mat-button-toggle value="All">All</mat-button-toggle>
+        <mat-button-toggle value="Placed">Placed</mat-button-toggle>
+        <mat-button-toggle value="Delivered">Delivered</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div> -->
+
+    <div class="order-filter">
+      <mat-button-toggle-group
+        aria-label="Order Filter"
+        appearance="legacy"
+        class="order-toggle-group"
+      >
+        <mat-button-toggle
+          value="All"
+          (click)="getAllOrderDetailsForAdmin('All')"
+          >All</mat-button-toggle
+        >
+        <mat-button-toggle
+          value="Placed"
+          (click)="getAllOrderDetailsForAdmin(placed)"
+          >Placed</mat-button-toggle
+        >
+        <mat-button-toggle
+          value="Shipped"
+          (click)="getAllOrderDetailsForAdmin(shipped)"
+          >Shipped</mat-button-toggle
+        >
+        <mat-button-toggle
+          value="Delivered"
+          (click)="getAllOrderDetailsForAdmin(delivered)"
+          >Delivered</mat-button-toggle
+        >
+      </mat-button-toggle-group>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="orders-table">
+      <!-- ID -->
+      <ng-container matColumnDef="Id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.orderId }}</td>
+      </ng-container>
+
+      <!-- Product -->
+      <ng-container matColumnDef="Product Name">
+        <th mat-header-cell *matHeaderCellDef>Product</th>
+        <td mat-cell *matCellDef="let element">
+          <span class="product-name">{{ element.product.productName }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Customer -->
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef>Customer</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.user.userFirstName }}
+        </td>
+      </ng-container>
+
+      <!-- Address -->
+      <ng-container matColumnDef="Address">
+        <th mat-header-cell *matHeaderCellDef>Address</th>
+        <td mat-cell *matCellDef="let element" class="address-cell">
+          <span matTooltip="{{ element.orderFullOrder }}">
+            {{ element.orderFullOrder | slice : 0 : 40
+            }}{{ element.orderFullOrder.length > 40 ? "..." : "" }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Contact -->
+      <ng-container matColumnDef="Contact No.">
+        <th mat-header-cell *matHeaderCellDef>Contact</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.orderContactNumber }}
+        </td>
+      </ng-container>
+
+      <!-- Status -->
+      <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <span
+            class="status-chip"
+            [ngClass]="{
+              'status-placed': element.orderStatus === 'Placed',
+              'status-delivered': element.orderStatus === 'Delivered',
+              'status-shipped': element.orderStatus === 'Shipped'
+            }"
+          >
+            {{ element.orderStatus }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element" class="actions-cell">
+          <button
+            mat-icon-button
+            color="primary"
+            matTooltip="View Details"
+            (click)="viewOrderDetails(element)"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="accent"
+            matTooltip="Track / Update Order"
+            (click)="openOrderDetails(element)"
+          >
+            <mat-icon>local_shipping</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="warn"
+            matTooltip="Mark as Delivered"
+            [class.delivered]="element.orderStatus === 'Delivered'"
+          >
+            <mat-icon>check_circle</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
 </div>
+
+<!-- [disabled]="element.orderStatus === 'Delivered'" -->
+<!-- (click)="markAsDelivered(element.orderId)"-->

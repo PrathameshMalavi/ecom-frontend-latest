@@ -5,6 +5,7 @@ import { OrderDetails } from "../_model/order-details.model";
 import { MyOrderDetails } from "../_model/order.model";
 import { Product } from "../_model/product.model";
 import { oldapi } from "../enviroments";
+import { OrderTrack } from "../_model/order-track.model";
 
 @Injectable({
   providedIn: "root",
@@ -14,6 +15,22 @@ export class ProductService {
 
   public createTransaction(amount) {
     return this.httpClient.get(oldapi.createTransaction + amount);
+  }
+
+  public markAsShipped(orderId) {
+    return this.httpClient.get(oldapi.markAsShipped + orderId);
+  }
+
+  public addOrderTrack(orderId, orderTrack: OrderTrack) {
+    return this.httpClient.post(oldapi.addOrderTrack + orderId, orderTrack);
+  }
+
+  public getOrderTrack(orderId): Observable<OrderTrack[]> {
+    return this.httpClient.get<OrderTrack[]>(oldapi.getOrderTracks + orderId);
+  }
+
+  public markAsReachedDestination(orderId) {
+    return this.httpClient.get(oldapi.markAsReachedDestination + orderId);
   }
 
   public markAsDelivered(orderId) {

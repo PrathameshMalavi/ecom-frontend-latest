@@ -26,7 +26,8 @@
       *ngIf="isUser()"
       mat-icon-button
       routerLink="/user/cart"
-      matBadge="{{ cartCount }}"
+      [matBadge]="size$ | async"
+      [matBadgeHidden]="false"
       matBadgeColor="warn"
       matTooltip="Cart"
     >

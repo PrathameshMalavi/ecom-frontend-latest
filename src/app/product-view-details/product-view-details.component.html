@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<!-- <div class="container mt-5">
   <div class="row">
     <div class="col-6">
       <div class="card image-container p-3">
@@ -18,11 +18,6 @@
             <img [src]="imgUrl" height="100px" />
           </mat-grid-tile>
         </mat-grid-list>
-        <!-- <mat-grid-list cols="3" gutterSize="10" rowHeight="1:1">
-                    <mat-grid-tile *ngFor="let file of product.productImages; let i = index;" (click)="changeIndex(i)" style="border: 1px solid lightgrey; cursor: pointer;">
-                        <img [src]="file.url" height="100px" >
-                    </mat-grid-tile>
-                </mat-grid-list> -->
       </div>
     </div>
     <div class="col-6">
@@ -60,6 +55,77 @@
           </button>
           }
         </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="product-container mt-5">
+  <div class="product-section">
+    <!-- Left: Product Image -->
+    <div class="product-left">
+      <div class="image-wrapper">
+        <img
+          [src]="product.imageUrls[selectedProductIndex]"
+          alt="{{ product.productName }}"
+          class="main-image"
+        />
+      </div>
+
+      <div class="thumbnail-wrapper">
+        <div
+          *ngFor="let imgUrl of product.imageUrls; let i = index"
+          class="thumb"
+          [class.active]="selectedProductIndex === i"
+          (click)="changeIndex(i)"
+        >
+          <img [src]="imgUrl" alt="Thumbnail {{ i + 1 }}" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Product Details -->
+    <div class="product-right">
+      <h2 class="product-title">{{ product.productName }}</h2>
+
+      <p class="product-description">{{ getProductDescription() }}</p>
+
+      <div class="product-pricing">
+        <span class="discounted">₹{{ product.productDiscountedPrice }}</span>
+        <span
+          *ngIf="product.productActualPrice > product.productDiscountedPrice"
+          class="actual"
+        >
+          ₹{{ product.productActualPrice }}
+        </span>
+      </div>
+
+      <div
+        *ngIf="product.productPrevActualPrice > product.productActualPrice"
+        class="price-drop"
+      >
+        🔻 Price dropped from ₹{{ product.productPrevActualPrice }}
+      </div>
+
+      @if(isAuthenticated()){
+      <app-user-address-cards></app-user-address-cards>
+      }
+
+      <div class="action-buttons" *ngIf="isUser()">
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="buyProduct(product.productId)"
+        >
+          Buy Now
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="addToCart(product.productId)"
+        >
+          Add to Cart
+        </button>
       </div>
     </div>
   </div>

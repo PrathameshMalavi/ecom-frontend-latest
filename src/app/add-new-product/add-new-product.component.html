@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<!-- <div class="container mt-5">
   <div class="card p-2">
     <div class="row">
       <div class="col-6">
@@ -71,7 +71,7 @@
         </form>
       </div>
       <div class="col-6">
-        <h5 *ngIf="!isNewProduct">Add Extra Product Images</h5>
+        <h3 *ngIf="!isNewProduct">Add Extra Product Images</h3>
         <div>
           <div class="dropzone" appDrag (files)="fileDropped($event)">
             <div class="text-wrapper">
@@ -108,6 +108,209 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="container mt-4">
+      @if(product.imageUrls){
+      <div
+        class="image-gallery-container mt-4"
+        *ngIf="product.imageUrls?.length"
+      >
+        <h3 class="gallery-title">🖼️ Product Images</h3>
+
+        <div class="image-gallery">
+          @for (url of product.imageUrls; track $index) {
+          <div class="image-card mat-elevation-z3">
+            <div class="image-wrapper">
+              <img [src]="url" alt="Product Image" class="product-image" />
+              <div class="overlay">
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  matTooltip="View"
+                  (click)="viewImage(url)"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+
+                <button
+                  mat-mini-fab
+                  color="warn"
+                  matTooltip="Remove Image"
+                  (click)="deleteImage($index)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      }
+    </div>
+  </div>
+</div> -->
+
+<div class="container mt-5">
+  <div class="card p-2">
+    <div class="product-form-container">
+      <mat-card class="product-card mat-elevation-z4">
+        <div class="product-card-header">
+          <h2>
+            {{ isNewProduct ? "Add New Product" : "Update Product" }}
+          </h2>
+        </div>
+
+        <div class="product-grid">
+          <!-- LEFT COLUMN: Product Details -->
+          <div class="form-section">
+            <form #productForm="ngForm" (ngSubmit)="addProduct(productForm)">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Product Name</mat-label>
+                <input
+                  matInput
+                  required
+                  placeholder="Enter product name"
+                  [(ngModel)]="product.productName"
+                  name="productName"
+                />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Product Description</mat-label>
+                <textarea
+                  matInput
+                  placeholder="Enter product description"
+                  [(ngModel)]="product.productDescription"
+                  name="productDescription"
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="6"
+                ></textarea>
+              </mat-form-field>
+
+              <div class="price-fields">
+                <mat-form-field appearance="outline" class="w-50">
+                  <mat-label>Actual Price</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    placeholder="₹ Actual Price"
+                    [(ngModel)]="product.productActualPrice"
+                    name="productActualPrice"
+                  />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-50">
+                  <mat-label>Discounted Price</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    placeholder="₹ Discounted Price"
+                    [(ngModel)]="product.productDiscountedPrice"
+                    name="productDiscountedPrice"
+                  />
+                </mat-form-field>
+              </div>
+
+              <div class="form-actions">
+                <button mat-stroked-button color="warn" type="reset">
+                  Clear
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  class="ml-2"
+                >
+                  {{ isNewProduct ? "Add Product" : "Update Product" }}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="image-section">
+            <h3>📸 Product Images</h3>
+
+            <div class="dropzone" appDrag (files)="fileDropped($event)">
+              <div class="text-wrapper">
+                <div class="centered">
+                  Drag & Drop your images or
+                  <a (click)="selectFile.click()" class="browse-button"
+                    >Browse</a
+                  >
+                </div>
+              </div>
+            </div>
+
+            <input
+              multiple
+              type="file"
+              style="display: none"
+              #selectFile
+              (change)="onFileSelected($event)"
+            />
+
+            <div class="image-preview" *ngIf="product.productImages?.length">
+              <mat-grid-list cols="4" rowHeight="1:1" gutterSize="12px">
+                <mat-grid-tile
+                  *ngFor="let file of product.productImages; let i = index"
+                >
+                  <div class="preview-card">
+                    <span class="btn-remove-image" (click)="removeImages(i)"
+                      ><mat-icon>close</mat-icon></span
+                    >
+                    <img [src]="file.url" alt="Product Image" />
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="container mt-4">
+      @if(product.imageUrls){
+      <div
+        class="image-gallery-container mt-4"
+        *ngIf="product.imageUrls?.length"
+      >
+        <h3 class="gallery-title">🖼️ Product Images</h3>
+
+        <div class="image-gallery">
+          @for (url of product.imageUrls; track $index) {
+          <div class="image-card mat-elevation-z3">
+            <div class="image-wrapper">
+              <img [src]="url" alt="Product Image" class="product-image" />
+              <div class="overlay">
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  matTooltip="View"
+                  (click)="viewImage(url)"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+
+                <button
+                  mat-mini-fab
+                  color="warn"
+                  matTooltip="Remove Image"
+                  (click)="deleteImage($index, url)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      }
     </div>
   </div>
 </div>

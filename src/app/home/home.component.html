@@ -1,5 +1,5 @@
-<div class="container mt-5">
-  <!-- <mat-form-field appearance="outline" class="w-100">
+<!-- <div class="container mt-5">
+  <mat-form-field appearance="outline" class="w-100">
     <mat-label>Search any product</mat-label>
     <input
       matInput
@@ -10,7 +10,7 @@
       placeholder="Search any product"
     />
     <mat-hint>Search any product</mat-hint>
-  </mat-form-field> -->
+  </mat-form-field>
   <app-search-bar (search)="searchByKeyword($event)"></app-search-bar>
 
   @if(searchText == ""){
@@ -21,9 +21,9 @@
     <mat-grid-tile *ngFor="let p of productDetails">
       <div class="row p-5">
         <div class="image-container">
-          <!-- <img class="home-page-product-image" [src]="p.productImages[0].url" alt=""> -->
+          <img class="home-page-product-image" [src]="p.productImages[0].url" alt="">
           @if(p.imageUrls){
-          <!-- <img class="home-page-product-image" src="p.imageUrls[0]" alt="" /> -->
+          <img class="home-page-product-image" src="p.imageUrls[0]" alt="" />
           <img class="home-page-product-image" [src]="p.imageUrls[0]" alt="" />
           } @else {
           <div class="image-container">
@@ -93,4 +93,39 @@
   </div>
 
   <div class="mt-5"></div>
+</div> -->
+
+<div class="container mt-5">
+  <app-search-bar
+    displayMsg="Search for products, brands and more..."
+    (search)="searchByKeyword($event)"
+  ></app-search-bar>
+
+  @if(searchText == ""){
+  <app-carousel-component></app-carousel-component>
+  }
+
+  <mat-grid-list cols="4" rowHeight="4:7" gutterSize="10">
+    <mat-grid-tile *ngFor="let p of productDetails">
+      <app-product-card [product]="p" [isInCart]="false"></app-product-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <div
+    class="text-center mt-5"
+    style="padding-bottom: 100px"
+    *ngIf="showLoadButton"
+  >
+    <button
+      type="button"
+      mat-raised-button
+      color="primary"
+      (click)="loadMoreProduct()"
+    >
+      Load more
+    </button>
+  </div>
+
+  <div class="mt-5"></div>
+  <div style="height: 50px"></div>
 </div>

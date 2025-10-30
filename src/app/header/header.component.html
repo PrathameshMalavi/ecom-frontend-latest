@@ -1,4 +1,6 @@
-@if (!isUser() && !isAdmin()) {
+<!-- @if (!isUser() && !isAdmin()) { -->
+@if (isLoggedOut()) {
+
 <mat-toolbar color="primary">
   <span> E-Commerce Application </span>
 

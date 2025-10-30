@@ -25,6 +25,8 @@ import { DragDirective } from "./drag.directive";
 import { ShowProductDetailsComponent } from "./show-product-details/show-product-details.component";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
+import { MatBadgeModule } from "@angular/material/badge";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { ShowProductImagesDialogComponent } from "./show-product-images-dialog/show-product-images-dialog.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { ProductViewDetailsComponent } from "./product-view-details/product-view-details.component";
@@ -57,6 +59,8 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { LoaderComponent } from "./loader.component";
 import { SearchBarComponent } from "./search.component";
 import { UserAddressCardsComponent } from "./address/user-address-car.compoenent";
+import { UserHomeComponentComponent } from "./home/user.home.component/user.home.component.component";
+import { ProductCardComponent } from "./home/product.card.component/product-card.component";
 
 // import { MatTableModule } from '@angular/material/table';
 
@@ -89,6 +93,8 @@ export function kcFactory(kcService: KeycloakService) {
     CarouselBannerComponent,
     AddCarouselComponent,
     SidebarComponent,
+    UserHomeComponentComponent,
+    ProductCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -109,6 +115,8 @@ export function kcFactory(kcService: KeycloakService) {
     MatCardModule,
     MatSelectModule,
     MatExpansionModule,
+    MatBadgeModule,
+    MatSnackBarModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,

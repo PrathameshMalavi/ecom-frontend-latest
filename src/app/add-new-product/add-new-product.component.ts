@@ -2,10 +2,12 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Route, Router } from "@angular/router";
 import { FileHandle } from "../_model/file-handle.model";
 import { Product } from "../_model/product.model";
 import { ProductService } from "../_services/product.service";
+import { MatDialog } from "@angular/material/dialog";
+import { ImageDialogComponent } from "../image-dialog-component";
 
 @Component({
   selector: "app-add-new-product",
@@ -21,6 +23,7 @@ export class AddNewProductComponent implements OnInit {
     productDescription: "",
     productDiscountedPrice: 0,
     productActualPrice: 0,
+    productPrevActualPrice: 0,
     productImages: [],
     imageUrls: [],
   };
@@ -28,13 +31,16 @@ export class AddNewProductComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private sanitizer: DomSanitizer,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.product = this.activatedRoute.snapshot.data["product"];
     if (this.product && this.product.productId) {
       this.isNewProduct = false;
+      this.product.productPrevActualPrice = this.product.productDiscountedPrice;
       this.product.productImages = [];
     }
   }
@@ -45,6 +51,10 @@ export class AddNewProductComponent implements OnInit {
       (response: Product) => {
         productForm.reset();
         this.product.productImages = [];
+        this.product.imageUrls = [];
+        if (!this.isNewProduct) {
+          this.router.navigate(["/admin/showProductDetails"]);
+        }
       },
       (error: HttpErrorResponse) => {
         console.log(error);
@@ -88,5 +98,28 @@ export class AddNewProductComponent implements OnInit {
 
   fileDropped(fileHandle: FileHandle) {
     this.product.productImages.push(fileHandle);
+  }
+
+  deleteImage(index: number, imgUrl: string) {
+    this.product.imageUrls = this.product.imageUrls.filter(
+      (url) => url != imgUrl
+    );
+  }
+
+  // viewImage(url: string) {
+  //   opendialog;
+  // }
+
+  viewImage(imageUrl: string): void {
+    this.dialog.open(ImageDialogComponent, {
+      data: { imageUrl },
+      panelClass: "custom-dialog-container",
+      width: "auto",
+      maxWidth: "90vw",
+    });
+  }
+
+  closeDialog(): void {
+    this.dialog.closeAll();
   }
 }

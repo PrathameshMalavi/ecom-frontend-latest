@@ -2,9 +2,14 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
+/* * {
+  background: #eef3ff;
+} */
+
 html,
 body {
   height: 100%;
+  /* background: #eef3ff; */
 }
 body {
   margin: 0;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
@@ -20,7 +20,7 @@ import { MatInputModule } from "@angular/material/input";
       <mat-icon class="search-icon">search</mat-icon>
       <input
         type="text"
-        placeholder="Search for products, brands and more..."
+        [placeholder]="displayMsg"
         #searchInput
         (keyup)="onSearch(searchInput.value)"
       />
@@ -92,6 +92,7 @@ import { MatInputModule } from "@angular/material/input";
   ],
 })
 export class SearchBarComponent {
+  @Input({ required: true }) displayMsg: string;
   @Output() search = new EventEmitter<string>();
 
   onSearch(keyword: string): void {

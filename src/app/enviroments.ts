@@ -64,6 +64,13 @@ export const oldapi = {
   addAddress: environment.oldbaseurl + "address/", // + id
   updateAddress: environment.oldbaseurl + "address/", // + id
   deleteAddress: environment.oldbaseurl + "address/", // + id
+
+  // OrderTrack
+  markAsShipped: environment.oldbaseurl + "markAsShipped/", // + id
+  addOrderTrack: environment.oldbaseurl + "addOrderTrack/", // + id, body(OrderTrack)
+  getOrderTracks: environment.oldbaseurl + "getOrderTracks/", // + id, body(OrderTrack)
+  markAsReachedDestination:
+    environment.oldbaseurl + "markAsReachedDestination/", // + id
 };
 
 export const frontendUrl = {
@@ -75,3 +82,25 @@ export const razorPay = {
   key_id: "rzp_test_RYQrZWZnEz52RQ,",
   key_secret: "4hq0ISZTg0t6YuMGB7cLrEHN",
 };
+
+export const common = {
+  desptext:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+};
+
+export const orderStatus = {
+  ORDER_PLACED: "Placed",
+  ORDER_Shipped: "Shipped",
+  ORDER_ReachedFinalDestination: "ReachedFinalDestination",
+  ORDER_Delivered: "Delivered",
+};
+
+export class CommonClass {
+  public static truncateDescription(
+    desc: string,
+    maxLength: number = 100
+  ): string {
+    if (!desc) return "";
+    return desc.length > maxLength ? desc.slice(0, maxLength) + "..." : desc;
+  }
+}
